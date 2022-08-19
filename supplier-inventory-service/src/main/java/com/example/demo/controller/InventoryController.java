@@ -28,5 +28,5 @@ public class InventoryController {
 		return inventoryService.findAll();
 				
 	}
-	
+	//THIS IS JUST AN UNWANTED UPDATE FUCK THIS THIS.
 }
