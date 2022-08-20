@@ -14,11 +14,10 @@ public class OrderService {
 	@Autowired
 	private OrderRepo orderRepo;
 	
-	public void saveOrder(Order order) {
-		orderRepo.save(order);
+	public Order saveOrder(Order order) {
+		return orderRepo.save(order);
 	}
 	public List<Order> findAll(){
 		return orderRepo.findAll();
 	}
-	
 }

@@ -14,11 +14,19 @@ public class InventoryService {
 	@Autowired
 	private InventoryRepo inventoryRepo;
 	
-	public void save(Inventory inventory) {
+	public Inventory save(Inventory inventory) {
 		inventoryRepo.save(inventory);
+		return inventory;
 	}
 	public List<Inventory> findAll(){
 		return inventoryRepo.findAll();
+	}
+	public Inventory updateInventory(Inventory inventory) {
+		inventoryRepo.save(inventory);
+		return inventory;
+	}
+	public void deleteInventory(Long inventoryID) {
+		inventoryRepo.deleteById(inventoryID);
 	}
 	
 }
