@@ -56,6 +56,12 @@ public class UserController {
 		userService.saveUser(user);
 		return user;
 	}
+	@RequestMapping("/email/{userID}")
+	public String sendEmail(@PathVariable("userID") Long userID) {
+		User user = userService.findById(userID);
+		String email = user.getUserEmail();
+		return email;
+	}
 	@GetMapping("/users")
 	public List<User> getUsers(){
 		return userService.findAll();

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,10 @@ import org.springframework.web.client.RestTemplate;
 import com.example.demo.entity.mqConfig;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.OrderToken;
+import com.example.demo.entity.SMS;
+import com.example.demo.entity.email;
 import com.example.demo.entity.verificationToken;
+//import com.example.demo.service.EmailSenderService;
 import com.example.demo.service.OrderService;
 
 @RestController
@@ -30,6 +34,12 @@ public class OrderController {
 	
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private RabbitTemplate template;
+	
+	
+	//private EmailSenderService emailSenderService;
 	
 	@RequestMapping("/receive")
 	public Order save(@RequestBody Order order) {
@@ -65,6 +75,19 @@ public class OrderController {
 			order.setVerfied(true);
 			order.setDrugQuantity(quantity);
 			orderService.saveOrder(order);
+			String body = "Your order for "+order.getDrugName()+" for "+order.getDrugQuantity()+" tabs is verified with our inventory and your pickUp date "+ 
+			"is set to "+order.getPickUpDate()+"\r\n"+"Order ID : "+order.getOrderID()+"\r\n"+"AMOUNT : "+(float)price;
+			String eemail = restTemplate.getForObject("http://user-service/user/email/"+order.getUserID(), String.class);
+			String smsBody="\r\nYour order for "+order.getDrugName()+" for "+order.getDrugQuantity()+" tabs is verified with our inventory and your pickUp date "+ 
+					"is set for "+order.getPickUpDate()+"\r\n"+"Order ID : "+order.getOrderID()+"\r\n"+"AMOUNT : "+(float)price;
+			email email = new email();
+			email.setToEmail(eemail);
+			email.setBody(body);
+			email.setSubject("ORDER IS VERFIED FOR PICKUP");
+			template.convertAndSend(mqConfig.EXCHANGE, mqConfig.ROUTING_KEY, email);
+			SMS sms = new SMS();
+			sms.setMessage(smsBody);
+			template.convertAndSend(mqConfig.EXCHANGE, mqConfig.ROUTING_KEY, sms);
 			return order;
 		}
 		else {
@@ -106,8 +129,6 @@ public class OrderController {
 		Order order = orderService.findyByOrderID(orderID);
 		return order;
 	}
-	
-	
 	@GetMapping("/{orderID}")
 	public Order getUserOrder(@PathVariable ("orderID") Long orderID) {
 		return orderService.findyByOrderID(orderID);

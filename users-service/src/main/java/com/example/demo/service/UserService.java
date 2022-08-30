@@ -31,4 +31,8 @@ public class UserService {
 	userRepo.save(user);  
 	return user;
 	}
+	@SuppressWarnings("deprecation")
+	public User findById(Long userID) {
+		return userRepo.getById(userID);
+	}
 }
