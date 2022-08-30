@@ -11,21 +11,9 @@ import javax.persistence.Table;
 @Table(name="users_pharma")
 public class User {
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long userID;
-	
-	@Column(name="userName" , nullable = false)
-	private String userName;
-	
-	@Column(name = "userPhoneNumber" , nullable = false)
-	private Long userPhoneNumber;
-	
-	@Column(name ="userEmail" , nullable = false)
-	private String userEmail;
-	
-	@Column(name ="password" , nullable = false)
-	private String password;
+	public User() {
+		super();
+	}
 
 	public User(Long userID, String userName, Long userPhoneNumber, String userEmail, String password) {
 		super();
@@ -36,8 +24,10 @@ public class User {
 		this.password = password;
 	}
 
-	public User() {
-		super();
+	@Override
+	public String toString() {
+		return "User [userID=" + userID + ", userName=" + userName + ", userPhoneNumber=" + userPhoneNumber + ", userEmail="
+				+ userEmail + ", password=" + password + "]";
 	}
 
 	public Long getUserID() {
@@ -60,8 +50,8 @@ public class User {
 		return userPhoneNumber;
 	}
 
-	public void setUserPhoneNumber(Long userPhoneNumber) {
-		this.userPhoneNumber = userPhoneNumber;
+	public void setUserPhoneNumber(Long userPhNumber) {
+		this.userPhoneNumber = userPhNumber;
 	}
 
 	public String getUserEmail() {
@@ -80,13 +70,19 @@ public class User {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "user [userID=" + userID + ", userName=" + userName + ", userPhoneNumber=" + userPhoneNumber
-				+ ", userEmail=" + userEmail + ", password=" + password + "]";
-	}
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long userID;
 	
+	@Column(name="userName" , nullable = false)
+	private String userName;
 	
+	@Column(name = "userPhoneNumber" , nullable = false)
+	private Long userPhoneNumber;
 	
-
+	@Column(name ="userEmail" , nullable = false)
+	private String userEmail;
+	
+	@Column(name ="password" , nullable = false)
+	private String password;
 }

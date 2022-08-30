@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepo;
+import com.example.demo.repository.UserRepository;
 
 @Service
 public class UserService {
 
 	@Autowired
-	private UserRepo userRepo;
+	private UserRepository userRepo;
 	
 	public User saveUser(User user) {
 		
@@ -26,5 +26,9 @@ public class UserService {
 	public void deleteUser(Long userID) {
 		userRepo.deleteById(userID);
 	}
-	
+	public User updateUser(User user)   
+	{  
+	userRepo.save(user);  
+	return user;
+	}
 }

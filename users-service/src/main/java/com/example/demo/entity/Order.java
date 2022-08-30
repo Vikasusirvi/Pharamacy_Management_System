@@ -1,45 +1,19 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name="orders_pharma")
+
 public class Order {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long orderID;
-	
-	@Column(name="orderDate", nullable = false)
 	private LocalDate orderDate;
-	
-	@Column (name ="drugID", nullable  = false)
 	private Long drugID;
-	
-	@Column(name ="drugName", nullable = false)
 	private String drugName;
-	
-	@Column(name = "drugQuantity", nullable = false)
 	private int drugQuantity;
-	
-	@Column(name = "drugPrice", nullable = false)
-	private int drugPrice;
-	
-	@Column(name = "userID", nullable = false)
+	private int drugPrice;	
 	private Long userID;
-	
-	@Column(name = "verfied")
 	private boolean verfied;
-	
-	@Column(name = "pickUpDate")
 	private LocalDate pickUpDate;
-	
 
 	public LocalDate getPickUpDate() {
 		return pickUpDate;

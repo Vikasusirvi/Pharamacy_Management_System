@@ -1,9 +1,10 @@
 package com.example.demo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.example.demo.entity.Order;
 import com.example.demo.repository.OrderRepo;
 import com.example.demo.service.OrderService;
+import com.example.demo.controller.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -24,21 +26,107 @@ class OrdersServiceApplicationTests {
 
 	@Autowired
 	private OrderService orderService;
-	
+	@Autowired
+	private OrderController orderController;
 	@MockBean
 	private OrderRepo orderRepo;
-	
+
 	@Test
-	public void testSaveOrder() {
-		Order order = new Order((long) 110,(long) 1203200,"Azithromycin", 100, 23, (long) 1234);
+	void getOrdersTest() {
+		when(orderRepo.findAll()).thenReturn(Stream.of(new Order((long)11,"Dolo",5,(long)636124)).collect(Collectors.toList()));
+		assertEquals(1, orderService.findAll().size());
+	}
+	@Test
+	void saveOrdersTest() {
+		Order order = new Order((long)11,"Dolo",5,(long)636124);
 		when(orderRepo.save(order)).thenReturn(order);
 		assertEquals(order,orderService.saveOrder(order));
 	}
+	private void assertEquals(Order order, Object object) {
+	// TODO Auto-generated method stub	
+	}
 	@Test
-	public void testFindAll() {
-		List<Order> orders = Stream.of(new Order((long) 110,(long) 1203200,"Azithromycin", 100, 23, (long) 1234),
-				new Order((long) 120,(long) 1303200,"Paracetamol", 200, 15, (long) 1234)).collect(Collectors.toList());
-		when(orderRepo.findAll()).thenReturn(orders);
-		assertEquals(orders,orderService.findAll());
+     void deleteOrderTest() {
+		orderService.deleteOrder((long)11);
+		verify(orderRepo,times(1)).deleteById((long)11);
+	}
+	@Test
+	void getOrderController() {
+		when(orderRepo.findAll())
+				.thenReturn(Stream.of( new Order((long)11,"Dolo",5,(long)636124))
+						.collect(Collectors.toList()));
+		assertEquals(1, orderController.getOrders().size());
+	}
+	private void assertEquals(int i, int size) {
+		// TODO Auto-generated method stub	
+	}
+	@Test
+	void saveOrderController() {
+		Order order = new Order((long)11,"Dolo",5,(long)636124);
+		when(orderRepo.save(order)).thenReturn(order);
+		assertEquals(order, orderController.save(order));
+	}
+	@Test
+	void updateOrderController() {
+		Order order =  new Order((long)11,"Dolo",5,(long)636124);
+		when(orderRepo.save(order)).thenReturn(order);
+		assertEquals(order, orderController.updateOrder(order));
+	}
+	@Test
+	void deleteOrder() {
+		orderService.deleteOrder((long) 11);
+		verify(orderRepo, times(1)).deleteById((long) 11);
+	}
+	@Test
+	void testSetOrderName() {
+		Order order = new Order();
+		order.setDrugName("Dolo");
+		assertEquals(order.getDrugName() == "Dolo");
+	}
+	@Test
+	void testSetOrderPhoneNumber() {
+		Order order = new Order();
+		order.setDrugQuantity(5);
+		assertEquals(order.getDrugQuantity() == 5);
+	}
+	@Test
+	void testSetOrderEmail() {
+		Order order = new Order();
+		order.setDrugPrice(25);
+		assertEquals(order.getDrugPrice() == 25);
+	}
+	@Test
+	void testSetOrderDate() {
+		Order order = new Order();
+		order.setOrderDate(LocalDate.now());
+		assertEquals(order.getOrderDate() == LocalDate.now());
+	}
+	@Test
+	void testSetUserID() {
+		Order order = new Order();
+		order.setUserID((long)65);
+		assertEquals(order.getUserID() == 65);
+	}
+	@Test
+	void testSetOrderID() {
+		Order order = new Order();
+		order.setOrderID((long)655);
+		assertEquals(order.getOrderID() == 655);
+	}
+	private void assertEquals(boolean b) {
+		// TODO Auto-generated method stub
+	}
+	@Test
+	void testToString() {
+		Order order= new Order((long)11,"Dolo",5,(long)636124);
+		assertEquals(order.toString());
+	}
+	private void assertEquals(String string) {
+		// TODO Auto-generated method stub	
+	}
+	@Test
+	void deleteOrderController() {
+		orderController.deleteOrder((long) 12);
+		verify(orderRepo, times(1)).deleteById((long) 12);
 	}
 }

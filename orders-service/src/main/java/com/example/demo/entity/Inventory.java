@@ -16,29 +16,9 @@ public class Inventory {
 	@Column(name="drugName", nullable = false)
 	private String drugName;
 	
-	@Column(name ="drugQuantity", nullable = true)
+	@Column(name ="drugQuantity", nullable = false)
 	private int drugQuantity;
 	
-	@Column(name = "drugPrice" ,nullable = true)
-	private int drugPrice;
-	
-	public Inventory(Long drugID, String drugName, int drugQuantity, int drugPrice, String supplierName) {
-		super();
-		this.drugID = drugID;
-		this.drugName = drugName;
-		this.drugQuantity = drugQuantity;
-		this.drugPrice = drugPrice;
-		this.supplierName = supplierName;
-	}
-
-	public int getDrugPrice() {
-		return drugPrice;
-	}
-
-	public void setDrugPrice(int drugPrice) {
-		this.drugPrice = drugPrice;
-	}
-
 	@Column(name ="supplierName", nullable = false)
 	private String supplierName;
 
@@ -96,6 +76,6 @@ public class Inventory {
 	@Override
 	public String toString() {
 		return "Inventory [drugID=" + drugID + ", drugName=" + drugName + ", drugQuantity=" + drugQuantity
-				+ ", drugPrice=" + drugPrice + ", supplierName=" + supplierName + "]";
+				+ ", supplierName=" + supplierName + "]";
 	}
 }

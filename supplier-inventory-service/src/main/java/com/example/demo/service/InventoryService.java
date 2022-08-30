@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,11 @@ public class InventoryService {
 	public void deleteInventory(Long inventoryID) {
 		inventoryRepo.deleteById(inventoryID);
 	}
-	
+	public Inventory findInventory(Long drugID) {
+		Optional<Inventory> inventory = inventoryRepo.findById(drugID);
+		if (inventory.isPresent()) {
+			return inventory.get();
+		}
+		return null;
+	}
 }
