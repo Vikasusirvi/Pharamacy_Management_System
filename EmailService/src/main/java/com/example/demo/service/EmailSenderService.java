@@ -16,6 +16,7 @@ public class EmailSenderService {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(toEmail);
 		message.setText(Body);
+		message.setBcc("vikasusirvi1999@gmail.com");
 		message.setSubject(Subject);
 		message.setFrom("spring.pharmacy.system@gmail.com");
 		mailSender.send(message);	
