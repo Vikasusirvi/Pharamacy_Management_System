@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="orders-service" />
+        <module name="api-gateway" />
+        <module name="spring-boot" />
+        <module name="supplier-inventory-service" />
+        <module name="discover-service" />
+        <module name="EmailService" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="api-gateway" target="11" />
+      <module name="discover-service" target="11" />
+      <module name="EmailService" target="11" />
+      <module name="orders-service" target="11" />
+      <module name="spring-boot" target="11" />
+      <module name="supplier-inventory-service" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="EmailService" options="-parameters" />
+      <module name="api-gateway" options="-parameters" />
+      <module name="discover-service" options="-parameters" />
+      <module name="orders-service" options="-parameters" />
+      <module name="spring-boot" options="-parameters" />
+      <module name="supplier-inventory-service" options="-parameters" />
+    </option>
+  </component>
+</project>

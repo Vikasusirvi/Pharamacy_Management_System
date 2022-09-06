@@ -66,14 +66,13 @@ public class UserController {
 	}
 	@RequestMapping("/email/{userID}")
 	public String sendEmail(@PathVariable("userID") Long userID) {
-		UserDao user1=userService.getById(userID);
-		String email = user1.getUserEmail();
+		UserDao user=userService.getById(userID);
+		String email = user.getUserEmail();
 		return email;
 	}
 
 	@RequestMapping("/order")
 	public String publishOrder(@RequestBody OrderToken token) {
-
 		template.convertAndSend(mqConfig.EXCHANGE, mqConfig.ROUTING_KEY, token);
 		return "Order Published";
 	}

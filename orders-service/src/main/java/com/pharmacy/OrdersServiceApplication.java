@@ -11,7 +11,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.pharmacy.service.EmailSenderService;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
+@EnableSwagger2
 public class OrdersServiceApplication {
 
 	public static void main(String[] args) {

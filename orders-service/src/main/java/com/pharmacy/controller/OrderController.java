@@ -1,6 +1,7 @@
 package com.pharmacy.controller;
 
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.pharmacy.entity.Order;
 import com.pharmacy.entity.OrderToken;
-import com.pharmacy.entity.SMS;
 import com.pharmacy.entity.email;
 import com.pharmacy.entity.mqConfig;
 import com.pharmacy.entity.verificationToken;
@@ -79,16 +79,11 @@ public class OrderController {
 			"is set to "+order.getPickUpDate()+"\r\n"+"Order ID : "+order.getOrderID()+"\r\n"+"AMOUNT : "+(float)price;
 //			String eemail = restTemplate.getForObject("http://user-service/user/email/"+order.getUserID(), String.class);
 			String eemail=order.getEmailID();
-			String smsBody="\r\nYour order for "+order.getDrugName()+" for "+order.getDrugQuantity()+" tabs is verified with our inventory and your pickUp date "+ 
-					"is set for "+order.getPickUpDate()+"\r\n"+"Order ID : "+order.getOrderID()+"\r\n"+"AMOUNT : "+(float)price;
 			email email = new email();
 			email.setToEmail(eemail);
 			email.setBody(body);
 			email.setSubject("ORDER IS VERFIED FOR PICKUP");
 			template.convertAndSend(mqConfig.EXCHANGE, mqConfig.ROUTING_KEY, email);
-			SMS sms = new SMS();
-			sms.setMessage(smsBody);
-			template.convertAndSend(mqConfig.EXCHANGE, mqConfig.ROUTING_KEY, sms);
 			return order;
 		}
 		else {

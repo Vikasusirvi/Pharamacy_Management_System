@@ -46,36 +46,15 @@ public class Order {
 		this.emailID = emailID;
 	}
 
-	public Order(Long drugID, String drugName, int drugQuantity, Long userID) {
-        super();
-        this.drugID = drugID;
-        this.drugName = drugName;
-        this.drugQuantity = drugQuantity;
-        this.userID = userID;
-    }
+	
 
     public Order() {
         super();
     }
 
-    public Order(Long orderID, LocalDate orderDate, String drugName, int drugQuantity, int drugPrice, Long userID) {
-        super();
-        this.orderID = orderID;
-        this.orderDate = orderDate;
-        this.drugName = drugName;
-        this.drugQuantity = drugQuantity;
-        this.drugPrice = drugPrice;
-        this.userID = userID;
-    }
+    
 
-    public Order(LocalDate orderDate, String drugName, int drugQuantity, int drugPrice, Long userID) {
-        super();
-        this.orderDate = orderDate;
-        this.drugName = drugName;
-        this.drugQuantity = drugQuantity;
-        this.drugPrice = drugPrice;
-        this.userID = userID;
-    }
+    
     public Long getDrugID() {
         return drugID;
     }

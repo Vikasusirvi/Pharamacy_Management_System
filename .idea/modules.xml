@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/EmailService/EmailService.iml" filepath="$PROJECT_DIR$/EmailService/EmailService.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Pharmacy JWT.iml" filepath="$PROJECT_DIR$/.idea/Pharmacy JWT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api-gateway/api-gateway.iml" filepath="$PROJECT_DIR$/api-gateway/api-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/discover-service/discover-service.iml" filepath="$PROJECT_DIR$/discover-service/discover-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/orders-service/orders-service.iml" filepath="$PROJECT_DIR$/orders-service/orders-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-microservice/spring-boot.iml" filepath="$PROJECT_DIR$/user-microservice/spring-boot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/supplier-inventory-service/supplier-inventory-service.iml" filepath="$PROJECT_DIR$/supplier-inventory-service/supplier-inventory-service.iml" />
+    </modules>
+  </component>
+</project>

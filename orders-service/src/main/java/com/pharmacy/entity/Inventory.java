@@ -26,13 +26,6 @@ public class Inventory {
 		super();
 	}
 
-	public Inventory(String drugName, int drugQuantity, String supplierName) {
-		super();
-		this.drugName = drugName;
-		this.drugQuantity = drugQuantity;
-		this.supplierName = supplierName;
-	}
-
 	public Inventory(Long drugID, String drugName, int drugQuantity, String supplierName) {
 		super();
 		this.drugID = drugID;

@@ -7,6 +7,7 @@ public class UserDto {
 	private Long userPhNumber;
 	private String userEmail;
 
+
     public String getUsername() {
         return username;
     }
