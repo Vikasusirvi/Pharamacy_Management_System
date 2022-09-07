@@ -23,3 +23,14 @@ spring :
         uri : http://localhost:8083/
         predicates :
         - Path=/inventory/**   
+
+logging:
+  level:
+    com:
+      example:
+        demo:
+          controller : INFO
+  file:
+    name : API-Gateway-Service-Log.log
+  pattern:
+    file : API %d [%level] %c{1.} [%t] %m%n

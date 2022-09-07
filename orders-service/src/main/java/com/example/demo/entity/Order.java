@@ -34,12 +34,22 @@ public class Order {
 	@Column(name = "userID", nullable = false)
 	private Long userID;
 	
+	@Column(name = "userEmail", nullable = false)
+	private String userEmail;
+	
 	@Column(name = "verfied")
 	private boolean verfied;
 	
 	@Column(name = "pickUpDate")
 	private LocalDate pickUpDate;
 	
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 
 	public LocalDate getPickUpDate() {
 		return pickUpDate;
@@ -60,14 +70,21 @@ public class Order {
 		super();
 	}
 
-	public Order(Long orderID, LocalDate orderDate, String drugName, int drugQuantity, int drugPrice, Long userID) {
+	
+
+	public Order(Long orderID, LocalDate orderDate, Long drugID, String drugName, int drugQuantity, int drugPrice,
+			Long userID, String userEmail, boolean verfied, LocalDate pickUpDate) {
 		super();
 		this.orderID = orderID;
 		this.orderDate = orderDate;
+		this.drugID = drugID;
 		this.drugName = drugName;
 		this.drugQuantity = drugQuantity;
 		this.drugPrice = drugPrice;
 		this.userID = userID;
+		this.userEmail = userEmail;
+		this.verfied = verfied;
+		this.pickUpDate = pickUpDate;
 	}
 
 	public Order(LocalDate orderDate, String drugName, int drugQuantity, int drugPrice, Long userID) {
@@ -147,7 +164,7 @@ public class Order {
 	public String toString() {
 		return "Order [orderID=" + orderID + ", orderDate=" + orderDate + ", drugID=" + drugID + ", drugName="
 				+ drugName + ", drugQuantity=" + drugQuantity + ", drugPrice=" + drugPrice + ", userID=" + userID
-				+ ", verfied=" + verfied + ", pickUpDate=" + pickUpDate + "]";
+				+ ", userEmail=" + userEmail + ", verfied=" + verfied + ", pickUpDate=" + pickUpDate + "]";
 	}
 	
 	

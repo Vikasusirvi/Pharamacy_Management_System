@@ -12,6 +12,30 @@ public class Order {
 	private int drugQuantity;
 	private int drugPrice;	
 	private Long userID;
+	private String userEmail;
+	public Order(Long orderID, LocalDate orderDate, Long drugID, String drugName, int drugQuantity, int drugPrice,
+			Long userID, String userEmail, boolean verfied, LocalDate pickUpDate) {
+		super();
+		this.orderID = orderID;
+		this.orderDate = orderDate;
+		this.drugID = drugID;
+		this.drugName = drugName;
+		this.drugQuantity = drugQuantity;
+		this.drugPrice = drugPrice;
+		this.userID = userID;
+		this.userEmail = userEmail;
+		this.verfied = verfied;
+		this.pickUpDate = pickUpDate;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
 	private boolean verfied;
 	private LocalDate pickUpDate;
 
@@ -121,7 +145,7 @@ public class Order {
 	public String toString() {
 		return "Order [orderID=" + orderID + ", orderDate=" + orderDate + ", drugID=" + drugID + ", drugName="
 				+ drugName + ", drugQuantity=" + drugQuantity + ", drugPrice=" + drugPrice + ", userID=" + userID
-				+ ", verfied=" + verfied + ", pickUpDate=" + pickUpDate + "]";
+				+ ", userEmail=" + userEmail + ", verfied=" + verfied + ", pickUpDate=" + pickUpDate + "]";
 	}
 	
 	

@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +24,14 @@ public class InventoryController {
 	@Autowired
 	private InventoryService inventoryService;
 	
+	Logger logger = LoggerFactory.getLogger(InventoryController.class);
+	
 	@PostMapping("/save")
 	public Inventory saveInventory(@RequestBody Inventory inventory) {
+		
+		logger.info("Inventory for {} with ID : {} and price: {} is saved with initial quantity of {} tabs supplied by {}"
+				,inventory.getDrugName(),inventory.getDrugID(),inventory.getDrugPrice(),inventory.getDrugQuantity(),inventory.getSupplierName());
+		
 		return inventoryService.save(inventory);
 	}
 	@GetMapping("/show")
@@ -37,6 +45,9 @@ public class InventoryController {
 		inventory.setDrugPrice(price);
 		inventory.setDrugQuantity(quantity);
 		inventoryService.save(inventory);
+		
+		logger.info("The inventory for {} with ID {} is updated",inventory.getDrugName(),inventory.getDrugID());
+		
 		return inventory;
 	}
 	
@@ -50,6 +61,8 @@ public class InventoryController {
 			inventory.setDrugQuantity(inventoryPresent-drugQuantity);
 			inventoryService.updateInventory(inventory);
 			verificationToken token = new verificationToken(price,true,drugQuantity);
+			logger.info("Order for {} has been satisfied for {} tabs and amount for the drugs is INR {} and the inventory has been updated for the {} drug to {} tabs",
+					inventory.getDrugName(),drugQuantity,price,inventory.getDrugName(),inventory.getDrugQuantity());
 			return token;
 		}
 		else {
@@ -59,6 +72,9 @@ public class InventoryController {
 	}
 	@DeleteMapping("/delete/{inventoryID}")
 	public void deleteInventory(@PathVariable("inventoryID") Long inventoryID) {
+		
+		logger.info("The inventory with  DRUG ID {} is deleted.",inventoryID);
+		
 		inventoryService.deleteInventory(inventoryID);
 	}
 }

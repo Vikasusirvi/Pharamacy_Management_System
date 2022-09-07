@@ -6,6 +6,13 @@ public class OrderToken {
 	private String drugName;
 	private int drugQuantity;
 	private Long userID;
+	private String userEmail;
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 	public Long getDrugID() {
 		return drugID;
 	}
@@ -30,10 +37,11 @@ public class OrderToken {
 	public void setUserID(Long userID) {
 		this.userID = userID;
 	}
+	
 	@Override
 	public String toString() {
 		return "OrderToken [drugID=" + drugID + ", drugName=" + drugName + ", drugQuantity=" + drugQuantity
-				+ ", userID=" + userID + "]";
+				+ ", userID=" + userID + ", userEmail=" + userEmail + "]";
 	}
 	public OrderToken(Long drugID, String drugName, int drugQuantity, Long userID) {
 		super();
@@ -45,5 +53,14 @@ public class OrderToken {
 	public OrderToken() {
 		super();
 	}
+	public OrderToken(Long drugID, String drugName, int drugQuantity, Long userID, String userEmail) {
+		super();
+		this.drugID = drugID;
+		this.drugName = drugName;
+		this.drugQuantity = drugQuantity;
+		this.userID = userID;
+		this.userEmail = userEmail;
+	}
+	
 	
 }

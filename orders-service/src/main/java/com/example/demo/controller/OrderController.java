@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +40,33 @@ public class OrderController {
 	@Autowired
 	private RabbitTemplate template;
 	
+	Logger logger = LoggerFactory.getLogger(OrderController.class);
 	
-	//private EmailSenderService emailSenderService;
+	@RabbitListener(queues= mqConfig.QUEUE)
+	public void listenToOrders(OrderToken token) {
+	 String userEmail = token.getUserEmail();
+		Order order = new Order();
+		order.setDrugID(token.getDrugID());
+		order.setDrugName(token.getDrugName());
+		order.setDrugPrice(0);
+		order.setDrugQuantity(token.getDrugQuantity());
+		order.setOrderDate(LocalDate.now());
+		order.setPickUpDate(null);
+		order.setUserID(token.getUserID());
+		order.setVerfied(false);
+		order.setUserEmail(userEmail);
+		orderService.saveOrder(order);
+		
+	//	logger.info("Order with [ID:{}] for the drug[] with ID[] for {} tabs is received on {} from the user [{}]"
+		//		,order.getOrderID(),order.getDrugName(),order.getDrugID(),order.getDrugQuantity(),order.getOrderDate(),order.getUserID());
+		
+	}
 	
 	@RequestMapping("/receive")
 	public Order save(@RequestBody Order order) {
+		
+		
+		
 		
 		Order rOrder = new Order();
 		rOrder.setVerfied(false);
@@ -56,7 +80,13 @@ public class OrderController {
 		rOrder.setPickUpDate(null);
 		rOrder.setUserID(order.getUserID());
 		orderService.saveOrder(rOrder);
+		
+		logger.info("Order with [ID:{}] for the drug[{}] with ID[{}] for {} tabs is received on {} from the user [{}]"
+				,rOrder.getOrderID(),rOrder.getDrugName(),rOrder.getDrugID(),rOrder.getDrugQuantity(),rOrder.getOrderDate(),rOrder.getUserID());
+		
 		return rOrder;
+		
+		
 	}
 	
 	@RequestMapping("/verify/{orderID}")
@@ -76,18 +106,21 @@ public class OrderController {
 			order.setDrugQuantity(quantity);
 			orderService.saveOrder(order);
 			String body = "Your order for "+order.getDrugName()+" for "+order.getDrugQuantity()+" tabs is verified with our inventory and your pickUp date "+ 
-			"is set to "+order.getPickUpDate()+"\r\n"+"Order ID : "+order.getOrderID()+"\r\n"+"AMOUNT : "+(float)price;
-			String eemail = restTemplate.getForObject("http://user-service/user/email/"+order.getUserID(), String.class);
+			"is set to "+order.getPickUpDate()+"\r\n"+"Order ID : "+order.getOrderID()+"\r\n"+"AMOUNT : "+(float)price+"\r\n"+"\r\n"+"\r\n"+"\r\n";
 			String smsBody="\r\nYour order for "+order.getDrugName()+" for "+order.getDrugQuantity()+" tabs is verified with our inventory and your pickUp date "+ 
 					"is set for "+order.getPickUpDate()+"\r\n"+"Order ID : "+order.getOrderID()+"\r\n"+"AMOUNT : "+(float)price;
 			email email = new email();
-			email.setToEmail(eemail);
+			email.setToEmail(order.getUserEmail());
 			email.setBody(body);
 			email.setSubject("ORDER IS VERFIED FOR PICKUP");
 			template.convertAndSend(mqConfig.EXCHANGE, mqConfig.ROUTING_KEY, email);
 			SMS sms = new SMS();
 			sms.setMessage(smsBody);
 			template.convertAndSend(mqConfig.EXCHANGE, mqConfig.ROUTING_KEY, sms);
+			
+			logger.info("Order with [ID:{}] for the drug[{}] with ID[{}] for {} tabs is verified for pick up on {} for the user [{}] and the amount to be paid is INR {}"
+				,order.getOrderID(),order.getDrugName(),order.getDrugID(),order.getDrugQuantity(),order.getPickUpDate(),order.getUserID(),order.getDrugPrice());
+			
 			return order;
 		}
 		else {
@@ -111,19 +144,6 @@ public class OrderController {
 		}
 		return unverified;
 	}
-	@RabbitListener(queues= mqConfig.QUEUE)
-	public void listenToOrders(OrderToken token) {
-		Order order = new Order();
-		order.setDrugID(token.getDrugID());
-		order.setDrugName(token.getDrugName());
-		order.setDrugPrice(0);
-		order.setDrugQuantity(token.getDrugQuantity());
-		order.setOrderDate(LocalDate.now());
-		order.setPickUpDate(null);
-		order.setUserID(token.getUserID());
-		order.setVerfied(false);
-		orderService.saveOrder(order);
-	}
 	@RequestMapping("/check/{orderID}")
 	public Order verifiedOrder(@PathVariable("orderID") Long orderID) {
 		Order order = orderService.findyByOrderID(orderID);
@@ -145,6 +165,9 @@ public class OrderController {
 	}
 	@DeleteMapping("/delete/{orderID}")
 	public void deleteOrder(@PathVariable("orderID") Long orderID) {
+		
+		logger.info("The Order with ID[{}] is deleted from the database",orderID);
+		
 		orderService.deleteOrder(orderID);
 	}
 }
